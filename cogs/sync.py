@@ -1,8 +1,8 @@
 from typing import Optional, Literal
 
 import discord
-from discord.ext.commands import Context, Greedy
 from discord.ext import commands
+from discord.ext.commands import Context, Greedy
 from discord.ext.commands import Cog, Bot
 
 
@@ -14,7 +14,7 @@ class Sync(Cog):
     @commands.command(name='sync')
     @commands.guild_only()
     @commands.is_owner()
-    async def sync(self, ctx: Context, guilds: Greedy[discord.Object], spec: Optional[Literal['~', '*', '^']] = None):
+    async def sync(self, ctx: Context, guilds: Greedy[discord.Object], spec: Optional[Literal['~', '*', '^']] = None) -> None:
         if not guilds:
             if spec == '~':
                 synced = await ctx.bot.tree.sync(guild=ctx.guild)
