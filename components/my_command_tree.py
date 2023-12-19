@@ -1,10 +1,10 @@
 import logging
-from aiohttp import client_exceptions
 
 from discord import Interaction
 from discord.app_commands import CommandTree, AppCommandError, CommandInvokeError
 
 from utils import errors
+from .my_errors import *
 
 
 class MyCommandTree(CommandTree):
@@ -13,8 +13,17 @@ class MyCommandTree(CommandTree):
 
         if isinstance(error, CommandInvokeError):
             error = error.original
-        
-        if isinstance(error, client_exceptions.InvalidURL):
-            await errors.coin_not_found(interaction)
+
+        if isinstance(error, YfinanceHTTPError):
+            logging.exception(error)
+            await errors.error_embed(
+                interaction,
+                '⛔Ticker not found',
+                'Please double check if ticker symbol exist'
+            )
         else:
-            await errors.unexpected_error(interaction)
+            await errors.error_embed(
+                interaction,
+                '⛔Unexpected error',
+                'An unexpected error has occured. Please contact the admin'
+            )
