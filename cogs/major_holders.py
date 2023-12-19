@@ -20,7 +20,7 @@ class MajorHolders(Cog):
     @app_commands.describe(
         ticker='Ticker symbol'
     )
-    async def info(
+    async def major_holders(
         self, 
         interaction: Interaction, 
         ticker: Transform[str, TransformUpper]
