@@ -6,7 +6,7 @@ from discord import Interaction, Embed, Colour
 from discord.app_commands import Transform
 from discord.ext.commands import Cog, Bot
 
-from constants import *
+from constants import YAHOO_FINANCE_URL
 from utils import utils
 from components.my_transformers import TransformUpper
 
