@@ -48,4 +48,8 @@ pip install -r requirements.txt
     <td>/institutional_holders</td>
     <td>Institutional holders for the stock</td>
   </tr>
+  <tr>
+    <td>/chart</td>
+    <td>Chart for the stock and given period and interval</td>
+  </tr>
 </table>
