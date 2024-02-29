@@ -4,7 +4,10 @@ from discord import Interaction
 from discord.app_commands import CommandTree, AppCommandError, CommandInvokeError
 
 from utils import errors
-from .my_errors import *
+from .my_errors import (
+    YfinanceHTTPError,
+    YfinanceMissingData
+)
 
 
 class MyCommandTree(CommandTree):
@@ -20,6 +23,13 @@ class MyCommandTree(CommandTree):
                 interaction,
                 '⛔Ticker not found',
                 'Please double check if ticker symbol exist'
+            )
+        elif isinstance(error, YfinanceMissingData):
+            logging.exception(error)
+            await errors.error_embed(
+                interaction,
+                '⛔Missing data',
+                'Data for this command is missing'
             )
         else:
             await errors.error_embed(
