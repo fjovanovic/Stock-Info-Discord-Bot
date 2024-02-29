@@ -52,4 +52,8 @@ pip install -r requirements.txt
     <td>/chart</td>
     <td>Chart for the stock and given period and interval</td>
   </tr>
+  <tr>
+    <td>/earnings_dates</td>
+    <td>Future (4) and historic (8) earnings dates</td>
+  </tr>
 </table>
