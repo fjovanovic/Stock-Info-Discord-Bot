@@ -56,4 +56,8 @@ pip install -r requirements.txt
     <td>/earnings_dates</td>
     <td>Future (4) and historic (8) earnings dates</td>
   </tr>
+  <tr>
+    <td>/actions</td>
+    <td>Stock actions (dividens, stock splits)</td>
+  </tr>
 </table>
