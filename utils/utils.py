@@ -27,7 +27,8 @@ def fetch_data(ticker: str) -> Ticker:
     data = Ticker(ticker)
 
     try:
-        data.info
+        if len(data.info.keys()) == 1 and data.info['trailingPegRatio'] is None:
+            raise HTTPError
     except HTTPError as e:
         raise YfinanceHTTPError
 
