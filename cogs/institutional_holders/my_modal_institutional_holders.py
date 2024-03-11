@@ -60,27 +60,27 @@ class MyModalInstitutionalHolders(Modal, title='Go to page'):
         my_embed.set_author(name=f'Page {answer_page} / {self.view.size}', icon_url=interaction.user.avatar.url)
         my_embed.add_field(
             name='Holder', 
-            value=f'`{self.view.data["Holder"][str(answer_page - 1)]}`', 
+            value=f'`{self.view.data.iloc[answer_page - 1]["Holder"]}`', 
             inline=False
         )
         my_embed.add_field(
             name='Shares', 
-            value=f'`{self.view.data["Shares"][str(answer_page - 1)]:,}`', 
+            value=f'`{self.view.data.iloc[answer_page - 1]["Shares"]:,}`', 
             inline=False
         )
         my_embed.add_field(
             name='Date Reported', 
-            value=f'`{dt.datetime.fromtimestamp(self.view.data["Date Reported"][str(answer_page - 1)] / 1000)}`', 
+            value=f'`{self.view.data.iloc[answer_page - 1]["Date Reported"]}`', 
             inline=False
         )
         my_embed.add_field(
-            name='% Out', 
-            value=f'`{self.view.data["% Out"][str(answer_page - 1)]}`', 
+            name='% held', 
+            value=f'`{self.view.data.iloc[answer_page - 1]["pctHeld"]}`', 
             inline=False
         )
         my_embed.add_field(
             name='Value', 
-            value=f'`{self.view.data["Value"][str(answer_page - 1)]:,} $`', 
+            value=f'`{self.view.data.iloc[answer_page - 1]["Value"]:,} $`', 
             inline=False
         )
         

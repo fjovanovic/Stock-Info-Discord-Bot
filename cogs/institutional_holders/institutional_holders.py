@@ -1,5 +1,4 @@
 import datetime as dt
-import json
 
 from discord import app_commands
 from discord import Interaction, Embed, Colour
@@ -9,7 +8,7 @@ from discord.ext.commands import Cog, Bot
 from constants import YAHOO_FINANCE_URL
 from utils import utils
 from components.my_transformers import TransformUpper
-from .my_view_institutional_holders import MyViewShowInstitutionalHolders
+from .my_view_institutional_holders import MyViewInstitutionalHolders
 from .my_select_institutional_holders import MySelectInstitutionalHolders
 
 
@@ -30,16 +29,16 @@ class InstitutionalHolders(Cog):
         await interaction.response.defer()
 
         data = utils.fetch_data(ticker)
-        institutional_holders = json.loads(data.institutional_holders.to_json())
-        size = len(institutional_holders['Holder'])
+        institutional_holders = data.institutional_holders
+        size = institutional_holders.shape[0]
 
-        my_view = MyViewShowInstitutionalHolders(ticker, institutional_holders, 0, size)
+        my_view = MyViewInstitutionalHolders(ticker, institutional_holders, 0, size)
         my_select = MySelectInstitutionalHolders(institutional_holders)
         for i in range(1, size + 1):
             my_select.add_option(
-                label=f'{institutional_holders["Holder"][str(i-1)]}',
+                label=f'{institutional_holders.iloc[i-1]["Holder"]}',
                 value=f'{i-1}',
-                description=f'{institutional_holders["Value"][str(i-1)]:,} $'
+                description=f'{institutional_holders.iloc[i-1]["Value"]:,} $'
             )
         my_view.add_item(my_select)
 
@@ -54,7 +53,7 @@ class InstitutionalHolders(Cog):
         for (key, holder) in institutional_holders['Holder'].items():
             my_embed.add_field(
                 name=f'Institutional holder #{int(key) + 1}',
-                value=f'`{holder} ({institutional_holders["Value"][str(key)]:,} $)`',
+                value=f'`{holder} ({institutional_holders.iloc[key]["Value"]:,} $)`',
                 inline=False
             )
 

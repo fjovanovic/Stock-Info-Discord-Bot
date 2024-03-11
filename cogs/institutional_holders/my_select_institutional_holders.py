@@ -15,7 +15,7 @@ class MySelectInstitutionalHolders(Select):
     
 
     async def callback(self, interaction: Interaction) -> None:
-        index = self.values[0]
+        index = int(self.values[0])
 
         my_embed = Embed(
             color=Colour.green(),
@@ -25,27 +25,27 @@ class MySelectInstitutionalHolders(Select):
         my_embed.set_author(name=f'Information about institutional holder', icon_url=interaction.user.avatar.url)
         my_embed.add_field(
             name='Holder', 
-            value=f'`{self.data["Holder"][str(index)]}`', 
+            value=f'`{self.data.iloc[index]["Holder"]}`', 
             inline=False
         )
         my_embed.add_field(
             name='Shares', 
-            value=f'`{self.data["Shares"][str(index)]:,}`', 
+            value=f'`{self.data.iloc[index]["Shares"]:,}`', 
             inline=False
         )
         my_embed.add_field(
             name='Date Reported', 
-            value=f'`{dt.datetime.fromtimestamp(self.data["Date Reported"][str(index)] / 1000)}`', 
+            value=f'`{self.data.iloc[index]["Date Reported"]}`', 
             inline=False
         )
         my_embed.add_field(
-            name='% Out', 
-            value=f'`{self.data["% Out"][str(index)]}`', 
+            name='% held', 
+            value=f'`{self.data.iloc[index]["pctHeld"]}`', 
             inline=False
         )
         my_embed.add_field(
             name='Value', 
-            value=f'`{self.data["Value"][str(index)]:,} $`', 
+            value=f'`{self.data.iloc[index]["Value"]:,} $`', 
             inline=False
         )
 

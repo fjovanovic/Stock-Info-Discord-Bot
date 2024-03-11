@@ -15,7 +15,7 @@ from .my_modal_institutional_holders import MyModalInstitutionalHolders
 from .my_select_institutional_holders import MySelectInstitutionalHolders
 
 
-class MyViewShowInstitutionalHolders(View):
+class MyViewInstitutionalHolders(View):
     def __init__(self, ticker: str, data: dict, page: int, size: int) -> None:
         super().__init__()
         self.ticker = ticker
@@ -45,7 +45,7 @@ class MyViewShowInstitutionalHolders(View):
             for (key, holder) in self.data['Holder'].items():
                 my_embed.add_field(
                     name=f'Institutional holder #{int(key) + 1}',
-                    value=f'`{holder} ({self.data["Value"][str(key)]:,} $)`',
+                    value=f'`{holder} ({self.data.iloc[key]["Value"]:,} $)`',
                     inline=False
                 )
 
@@ -55,9 +55,9 @@ class MyViewShowInstitutionalHolders(View):
         my_select = MySelectInstitutionalHolders(self.data)
         for i in range(1, self.size + 1):
             my_select.add_option(
-                label=f'{self.data["Holder"][str(i-1)]}',
+                label=f'{self.data.iloc[i-1]["Holder"]}',
                 value=f'{i-1}',
-                description=f'{self.data["Value"][str(i-1)]:,} $'
+                description=f'{self.data.iloc[i-1]["Value"]:,} $'
             )
         for child in self.children:
             if isinstance(child, (MySelectInstitutionalHolders, SelectOption)):
@@ -72,27 +72,27 @@ class MyViewShowInstitutionalHolders(View):
         my_embed.set_author(name=f'Page {self.page} / {self.size}', icon_url=interaction.user.avatar.url)
         my_embed.add_field(
             name='Holder', 
-            value=f'`{self.data["Holder"][str(self.page - 1)]}`', 
+            value=f'`{self.data.iloc[self.page - 1]["Holder"]}`', 
             inline=False
         )
         my_embed.add_field(
             name='Shares', 
-            value=f'`{self.data["Shares"][str(self.page - 1)]:,}`', 
+            value=f'`{self.data.iloc[self.page - 1]["Shares"]:,}`', 
             inline=False
         )
         my_embed.add_field(
             name='Date Reported', 
-            value=f'`{dt.datetime.fromtimestamp(self.data["Date Reported"][str(self.page - 1)] / 1000)}`', 
+            value=f'`{self.data.iloc[self.page - 1]["Date Reported"]}`', 
             inline=False
         )
         my_embed.add_field(
-            name='% Out', 
-            value=f'`{self.data["% Out"][str(self.page - 1)]}`', 
+            name='% held', 
+            value=f'`{self.data.iloc[self.page - 1]["pctHeld"]}`', 
             inline=False
         )
         my_embed.add_field(
             name='Value', 
-            value=f'`{self.data["Value"][str(self.page - 1)]:,} $`', 
+            value=f'`{self.data.iloc[self.page - 1]["Value"]:,} $`', 
             inline=False
         )
 
@@ -111,9 +111,9 @@ class MyViewShowInstitutionalHolders(View):
         my_select = MySelectInstitutionalHolders(self.data)
         for i in range(1, self.size + 1):
             my_select.add_option(
-                label=f'{self.data["Holder"][str(i-1)]}',
+                label=f'{self.data.iloc[i-1]["Holder"]}',
                 value=f'{i-1}',
-                description=f'{self.data["Value"][str(i-1)]:,} $'
+                description=f'{self.data.iloc[i-1]["Value"]:,} $'
             )
         for child in self.children:
             if isinstance(child, (MySelectInstitutionalHolders, SelectOption)):
@@ -128,27 +128,27 @@ class MyViewShowInstitutionalHolders(View):
         my_embed.set_author(name=f'Page {self.page} / {self.size}', icon_url=interaction.user.avatar.url)
         my_embed.add_field(
             name='Holder', 
-            value=f'`{self.data["Holder"][str(self.page - 1)]}`', 
+            value=f'`{self.data.iloc[self.page - 1]["Holder"]}`', 
             inline=False
         )
         my_embed.add_field(
             name='Shares', 
-            value=f'`{self.data["Shares"][str(self.page - 1)]:,}`', 
+            value=f'`{self.data.iloc[self.page - 1]["Shares"]:,}`', 
             inline=False
         )
         my_embed.add_field(
             name='Date Reported', 
-            value=f'`{dt.datetime.fromtimestamp(self.data["Date Reported"][str(self.page - 1)] / 1000)}`', 
+            value=f'`{self.data.iloc[self.page - 1]["Date Reported"]}`', 
             inline=False
         )
         my_embed.add_field(
-            name='% Out', 
-            value=f'`{self.data["% Out"][str(self.page - 1)]}`', 
+            name='% held', 
+            value=f'`{self.data.iloc[self.page - 1]["pctHeld"]}`', 
             inline=False
         )
         my_embed.add_field(
             name='Value', 
-            value=f'`{self.data["Value"][str(self.page - 1)]:,} $`', 
+            value=f'`{self.data.iloc[self.page - 1]["Value"]:,} $`', 
             inline=False
         )
 
