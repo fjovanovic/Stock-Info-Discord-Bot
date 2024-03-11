@@ -8,12 +8,11 @@ from components import MyBot, MyCommandTree
 from utils import utils
 
 
-load_dotenv()
-
-bot = MyBot(command_prefix='$', activity_name='Stock market', tree_cls=MyCommandTree)
-
-
 async def main():
+    load_dotenv()
+    
+    bot = MyBot(command_prefix='$', activity_name='Stock market', tree_cls=MyCommandTree)
+
     parser = ArgumentParser(
         usage='python3 main.py [-t | --test]',
         description='Discord bot for providing stock information',
@@ -21,7 +20,7 @@ async def main():
     )
 
     parser.add_argument('-t', '--test', action='store_true', help='Providing console log instead of file log')
-    args = parser.parse_args()
+    args = parser.parse_args()    
     if args.test:
         discord.utils.setup_logging()
     else:
@@ -31,4 +30,6 @@ async def main():
     await bot.start(TOKEN)
 
 
-asyncio.run(main())
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
