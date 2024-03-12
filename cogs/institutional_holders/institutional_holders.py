@@ -8,6 +8,7 @@ from discord.ext.commands import Cog, Bot
 from constants import YAHOO_FINANCE_URL
 from utils import utils
 from components.my_transformers import TransformUpper
+from components.my_errors import YfinanceMissingData
 from .my_view_institutional_holders import MyViewInstitutionalHolders
 from .my_select_institutional_holders import MySelectInstitutionalHolders
 
@@ -29,16 +30,18 @@ class InstitutionalHolders(Cog):
         await interaction.response.defer()
 
         data = utils.fetch_data(ticker)
-        inst_holders = data.institutional_holders
-        size = inst_holders.shape[0]
+        holders = data.institutional_holders
+        if holders is None:
+            raise YfinanceMissingData
+        size = holders.shape[0]
 
-        my_view = MyViewInstitutionalHolders(ticker, inst_holders, 0, size)
-        my_select = MySelectInstitutionalHolders(inst_holders)
+        my_view = MyViewInstitutionalHolders(ticker, holders, 0, size)
+        my_select = MySelectInstitutionalHolders(holders)
         for i in range(1, size + 1):
             my_select.add_option(
-                label=f'{inst_holders.iloc[i-1]["Holder"]}',
+                label=f'{holders.iloc[i-1]["Holder"]}',
                 value=f'{i-1}',
-                description=f'{inst_holders.iloc[i-1]["Value"]:,} $'
+                description=f'{holders.iloc[i-1]["Value"]:,} $'
             )
         my_view.add_item(my_select)
 
@@ -50,10 +53,10 @@ class InstitutionalHolders(Cog):
         )
 
         my_embed.set_author(name=f'{ticker}', icon_url=interaction.user.avatar.url)
-        for (key, holder) in inst_holders['Holder'].items():
+        for (key, holder) in holders['Holder'].items():
             my_embed.add_field(
                 name=f'Institutional holder #{int(key) + 1}',
-                value=f'`{holder} ({inst_holders.iloc[key]["Value"]:,} $)`',
+                value=f'`{holder} ({holders.iloc[key]["Value"]:,} $)`',
                 inline=False
             )
 
