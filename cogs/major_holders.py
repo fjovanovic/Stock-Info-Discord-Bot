@@ -28,8 +28,8 @@ class MajorHolders(Cog):
         await interaction.response.defer()
         
         data = utils.fetch_data(ticker)
-        major_holders = data.major_holders
-        if major_holders is None:
+        holders = data.major_holders
+        if holders is None:
             raise YfinanceMissingData
 
         my_embed = Embed(
@@ -40,10 +40,10 @@ class MajorHolders(Cog):
         )
 
         my_embed.set_author(name=f'{ticker}', icon_url=interaction.user.avatar.url)
-        my_embed.add_field(name='Shares Held by All Insider', value=f'`{major_holders.iloc[0][0]}`', inline=False)
-        my_embed.add_field(name='Shares Held by Institutions', value=f'`{major_holders.iloc[1][0]}`', inline=False)
-        my_embed.add_field(name='Float Held by Institutions', value=f'`{major_holders.iloc[2][0]}`', inline=False)
-        my_embed.add_field(name='Number of Institutions Holding Shares', value=f'`{float(major_holders.iloc[3][0]):,}`', inline=False)
+        my_embed.add_field(name='Shares Held by All Insider', value=f'`{holders.iloc[0][0]}`', inline=False)
+        my_embed.add_field(name='Shares Held by Institutions', value=f'`{holders.iloc[1][0]}`', inline=False)
+        my_embed.add_field(name='Float Held by Institutions', value=f'`{holders.iloc[2][0]}`', inline=False)
+        my_embed.add_field(name='Number of Institutions Holding Shares', value=f'`{float(holders.iloc[3][0]):,}`', inline=False)
 
         await interaction.followup.send(embed=my_embed)
     
