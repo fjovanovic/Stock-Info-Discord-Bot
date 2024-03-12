@@ -29,16 +29,16 @@ class InstitutionalHolders(Cog):
         await interaction.response.defer()
 
         data = utils.fetch_data(ticker)
-        institutional_holders = data.institutional_holders
-        size = institutional_holders.shape[0]
+        inst_holders = data.institutional_holders
+        size = inst_holders.shape[0]
 
-        my_view = MyViewInstitutionalHolders(ticker, institutional_holders, 0, size)
-        my_select = MySelectInstitutionalHolders(institutional_holders)
+        my_view = MyViewInstitutionalHolders(ticker, inst_holders, 0, size)
+        my_select = MySelectInstitutionalHolders(inst_holders)
         for i in range(1, size + 1):
             my_select.add_option(
-                label=f'{institutional_holders.iloc[i-1]["Holder"]}',
+                label=f'{inst_holders.iloc[i-1]["Holder"]}',
                 value=f'{i-1}',
-                description=f'{institutional_holders.iloc[i-1]["Value"]:,} $'
+                description=f'{inst_holders.iloc[i-1]["Value"]:,} $'
             )
         my_view.add_item(my_select)
 
@@ -50,10 +50,10 @@ class InstitutionalHolders(Cog):
         )
 
         my_embed.set_author(name=f'{ticker}', icon_url=interaction.user.avatar.url)
-        for (key, holder) in institutional_holders['Holder'].items():
+        for (key, holder) in inst_holders['Holder'].items():
             my_embed.add_field(
                 name=f'Institutional holder #{int(key) + 1}',
-                value=f'`{holder} ({institutional_holders.iloc[key]["Value"]:,} $)`',
+                value=f'`{holder} ({inst_holders.iloc[key]["Value"]:,} $)`',
                 inline=False
             )
 
