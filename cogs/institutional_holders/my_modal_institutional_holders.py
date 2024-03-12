@@ -6,12 +6,13 @@ from discord import (
     Embed, 
     Colour
 )
-from discord.ui import Modal, TextInput, View
+from discord.ui import TextInput, View
 
+from components import MyModal
 from utils import errors
 
 
-class MyModalInstitutionalHolders(Modal, title='Go to page'):
+class MyModalInstitutionalHolders(MyModal, title='Go to page'):
     answer = TextInput(
         label='Enter page number?',
         style=TextStyle.short,
