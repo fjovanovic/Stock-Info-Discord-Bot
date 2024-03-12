@@ -7,15 +7,16 @@ from discord import (
     Colour, 
     SelectOption
 )
-from discord.ui import View, Button
+from discord.ui import Button
 from discord.ui import button
 
+from components import MyView
 from constants import YAHOO_FINANCE_URL
 from .my_modal_institutional_holders import MyModalInstitutionalHolders
 from .my_select_institutional_holders import MySelectInstitutionalHolders
 
 
-class MyViewInstitutionalHolders(View):
+class MyViewInstitutionalHolders(MyView):
     def __init__(self, ticker: str, data: dict, page: int, size: int) -> None:
         super().__init__()
         self.ticker = ticker
