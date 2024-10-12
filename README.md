@@ -1,4 +1,4 @@
-# Discord Stock Information Bot  
+# Stock Info Discord Bot  
 :warning: **Not an official product**  
 The financial data provided by the Bot, sourced through the [yfinance](https://github.com/ranaroussi/yfinance) Python library, is for informational purposes only.  
 While the Bot strive to provide accurate and up-to-date information, it doesn't guarantee the accuracy, completeness, or reliability of the data.
